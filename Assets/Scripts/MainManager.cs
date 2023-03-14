@@ -76,7 +76,7 @@ public class MainManager : MonoBehaviour
         m_GameOver = true;
         GameOverText.SetActive(true);
 
-        Score newScore = new Score(MenuManager.Instance.playerName, m_Points);
+        Score newScore = new Score(PlayerData.Instance.playerName, m_Points);
         HighScoreManager.Instance.AddToScores(newScore);
     }
 

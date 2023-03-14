@@ -8,7 +8,11 @@ public class HighScoreManager : MonoBehaviour
 {
     public static HighScoreManager Instance;
 
+    // scoreList is saved with JSON, in chronological order
     private ScoreList scoreList;
+
+    // sortedScores list is a sorted list of scoreList
+    private List<Score> sortedScores;
 
     [System.Serializable]
     class ScoreList
@@ -29,14 +33,17 @@ public class HighScoreManager : MonoBehaviour
 
         scoreList = new ScoreList();
 
-        LoadScores();
+        LoadScores(); // fills scoreList
+        
+        SortScores(); // fills sortedScores
     }
 
     public void AddToScores(Score score)
     {
         scoreList.scores.Add(score);
-        SortScores();
         SaveScores();
+
+        SortScores();
     }
 
     public void SaveScores()
@@ -58,26 +65,46 @@ public class HighScoreManager : MonoBehaviour
 
     public void SortScores()
     {
-        if (scoreList.scores.Any())
+        if (IsScoreListEmpty())
         {
-            List<Score> sortedScores = scoreList.scores.OrderByDescending(s => s.score).ToList();
-            scoreList.scores = sortedScores;
+            Debug.Log("Score list is empty");
         }
         else
         {
-            Debug.Log("Score list is empty");
+            sortedScores = scoreList.scores.OrderByDescending(s => s.score).ToList();
+            for (int i = 0; i < sortedScores.Count; i++)
+            {
+                Debug.Log(sortedScores[i].playerName + " - " + sortedScores[i].score);
+            }
         }
     }
 
     public Score GetHighestScore()
     {
-        if (scoreList.scores.Any())
-        {
-            return scoreList.scores[0];
-        }
-        else
+        if (IsScoreListEmpty())
         {
             return new Score("Name", 0);
         }
+        else
+        {
+            return sortedScores[0];
+        }
+    }
+
+    public string GetLastEntryName()
+    {
+        if (IsScoreListEmpty())
+        {
+            return "";
+        }
+        else
+        {
+            return scoreList.scores[scoreList.scores.Count - 1].playerName;
+        }
+    }
+
+    public bool IsScoreListEmpty()
+    {
+        return !scoreList.scores.Any();
     }
 }

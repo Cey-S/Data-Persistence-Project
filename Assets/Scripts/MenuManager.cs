@@ -9,30 +9,27 @@ using UnityEditor;
 
 public class MenuManager : MonoBehaviour
 {
-    public static MenuManager Instance;
-
     [SerializeField]
     private InputField nameInputField;
     [SerializeField]
     private Text bestScoreText;
 
-    public string playerName;
-
-    private void Awake()
+    private void Start()
     {
-        if (Instance != null)
-        {
-            Destroy(gameObject);
-            return;
-        }
+        DisplayBestScore();
 
-        Instance = this;
-        DontDestroyOnLoad(gameObject);
-    }    
+        nameInputField.text = HighScoreManager.Instance.GetLastEntryName();
+    }
+
+    private void DisplayBestScore()
+    {
+        Score highest = HighScoreManager.Instance.GetHighestScore();
+        bestScoreText.text = $"Best Score: {highest.playerName} : {highest.score}";
+    }
 
     public void EnterPlayerName()
     {
-        playerName = nameInputField.text;
+        PlayerData.Instance.playerName = nameInputField.text;
     }
 
     public void StartGame()
