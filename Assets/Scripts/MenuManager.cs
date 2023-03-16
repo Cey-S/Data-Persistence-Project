@@ -37,6 +37,11 @@ public class MenuManager : MonoBehaviour
         SceneManager.LoadScene(1);
     }
 
+    public void GoToHighScores()
+    {
+        SceneManager.LoadScene(2);
+    }
+
     public void QuitGame()
     {
 #if UNITY_EDITOR

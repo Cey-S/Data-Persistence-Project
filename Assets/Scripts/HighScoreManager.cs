@@ -12,7 +12,7 @@ public class HighScoreManager : MonoBehaviour
     private ScoreList scoreList;
 
     // sortedScores list is a sorted list of scoreList
-    private List<Score> sortedScores;
+    private List<Score> sortedScores = new List<Score>();
 
     [System.Serializable]
     class ScoreList
@@ -71,19 +71,20 @@ public class HighScoreManager : MonoBehaviour
         }
         else
         {
-            sortedScores = scoreList.scores.OrderByDescending(s => s.score).ToList();
-            for (int i = 0; i < sortedScores.Count; i++)
-            {
-                Debug.Log(sortedScores[i].playerName + " - " + sortedScores[i].score);
-            }
+            sortedScores = scoreList.scores.OrderByDescending(s => s.score).ToList();            
         }
+    }
+    
+    public List<Score> GetScores()
+    {
+        return sortedScores;
     }
 
     public Score GetHighestScore()
     {
         if (IsScoreListEmpty())
         {
-            return new Score("Name", 0);
+            return new Score("", 0);
         }
         else
         {
