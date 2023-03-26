@@ -7,6 +7,8 @@ public class PlayerData : MonoBehaviour
     public static PlayerData Instance;
 
     public string playerName;
+    public Material ballMaterial;
+    public int currentBall = 0;
 
     private void Awake()
     {

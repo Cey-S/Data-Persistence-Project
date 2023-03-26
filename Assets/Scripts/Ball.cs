@@ -10,6 +10,8 @@ public class Ball : MonoBehaviour
     void Start()
     {
         m_Rigidbody = GetComponent<Rigidbody>();
+
+        transform.GetComponent<MeshRenderer>().material = PlayerData.Instance.ballMaterial;
     }
     
     private void OnCollisionExit(Collision other)
